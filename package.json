@@ -1,0 +1,19 @@
+{
+  "name": "websocketserver",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "npx tsx index.ts"
+  },
+  "keywords": [],
+  "author": "Maicon Jacobsen Silveira",
+  "license": "MIT",
+  "description": "Serviço de controle de volume pela rede",
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "tsx": "^4.19.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0"
+  }
+}
