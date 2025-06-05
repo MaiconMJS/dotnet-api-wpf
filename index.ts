@@ -1,21 +1,37 @@
 import dotenv from "dotenv";
 dotenv.config();
 const UDP_PORT = Number(process.env.PORT_UDP);
-const WPF_PORT = Number(process.env.WPF_PORT);
-const WPF_HOST = process.env.WPF_HOST;
+const WS_PORT = Number(process.env.WS_PORT);
 import dgram from "dgram";
+import { WebSocketServer } from "ws";
 
 const socket = dgram.createSocket("udp4");
+const wss = new WebSocketServer({ port: WS_PORT });
+
+let percent = "50";
 
 socket.on("message", (msg, rinfo) => {
   console.log(`Mensagem recebida: ${msg} de ${rinfo.address}:${rinfo.port}`);
 
-  socket.send(msg, WPF_PORT, WPF_HOST, (err) => {
-    if (err) {
-      console.error(`Erro ao enviar para WPF: ${err}`);
-    } else {
-      console.log(`Mensagem enviada para WPF: ${msg}`);
+  percent = msg.toString();
+
+  wss.clients.forEach((client: any) => {
+    if (client.readyState === 1) {
+      client.send(percent);
     }
+  });
+});
+
+wss.on("connection", (ws: any) => {
+  console.log("Cliente websocket conectado.");
+  ws.send(percent);
+
+  ws.on("close", () => {
+    console.log("Cliente websocket desconectado.");
+  });
+
+  ws.on("error", (error: any) => {
+    console.error(`Erro no WebSocket: ${error}`);
   });
 });
 

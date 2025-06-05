@@ -11,9 +11,11 @@
   "description": "Serviço de controle de volume pela rede",
   "devDependencies": {
     "@types/node": "^22.15.29",
+    "@types/ws": "^8.18.1",
     "tsx": "^4.19.4"
   },
   "dependencies": {
-    "dotenv": "^16.5.0"
+    "dotenv": "^16.5.0",
+    "ws": "^8.18.2"
   }
 }
